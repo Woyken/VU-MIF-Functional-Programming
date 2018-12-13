@@ -9,7 +9,7 @@ module Lib
     checkMeAlive,
     getEnemyPlayerId,
     selectOnlyPlayerMoves,
-    fillIfLast,
+    fillOponentsResult,
     checkMyWin,
     parseAllMoves
     ) where
@@ -43,12 +43,23 @@ data BattleshipsTable = BattleshipsTable {
 --sendGetRequest :: IO String
 --sendGetRequest = simpleHTTP (getRequest _DEFINED_REQUEST_URL) >>= getResponseBody
 
+fst3 :: (a, b, c) -> a
+fst3 (x, _, _) = x
 
 getTheMovesRequest :: String -> String -> IO String
-getTheMovesRequest requestUrl requestContentType = simpleHTTP (buildMyRequest) >>= getResponseBody
-    where buildMyRequest = (getRequest url){ rqHeaders = makeHeadersForMyRequest }
-          makeHeadersForMyRequest = [Header (HdrAccept) requestContentType]
-          url = requestUrl
+getTheMovesRequest requestUrl requestContentType = do
+    response <- simpleHTTP ((getRequest requestUrl){ rqHeaders = [Header (HdrAccept) requestContentType] })
+    responseValue <- (getResponseBody response)
+    responseCode <- getResponseCode response
+    let responseCodeFirstNum = fst3 (responseCode)
+    if (responseCodeFirstNum == 2) then do
+        return responseValue
+    else if (responseCodeFirstNum == 4) then do
+        putStrLn "No move available yet. Trying again..."
+        getTheMovesRequest requestUrl requestContentType
+    else do
+        putStrLn ("Unexpected response from server, retrying... " ++ responseValue)
+        getTheMovesRequest requestUrl requestContentType
 
 sendPostRequest :: String -> String -> String -> IO String
 sendPostRequest move requestUrl requestContentType = simpleHTTP (postRequestWithBody (requestUrl) requestContentType move) >>= getResponseBody
@@ -60,25 +71,16 @@ printBEncode :: BEncode -> IO ()
 printBEncode s = do
     putStrLn (bShow s "")
 
-addMyMove :: BattleshipsMsg -> BattleshipsMsg -> BattleshipsMsg
-addMyMove fullList myMove
-    | isNothing (bsMprev fullList) = BattleshipsMsg {bsMcoord = bsMcoord fullList, bsMresult = bsMresult fullList, bsMprev = Just myMove}
-    | True = BattleshipsMsg {bsMcoord = bsMcoord fullList, bsMresult = bsMresult fullList, bsMprev = Just (addMyMove (fromJust (bsMprev fullList)) myMove)}
+addMyMove :: BattleshipsMsg -> (Char, Int) -> BattleshipsMsg
+addMyMove fullList myShotCoords = BattleshipsMsg {bsMcoord = Just myShotCoords, bsMresult = bsMresult fullList, bsMprev = bsMprev fullList}
 
 checkMyWin :: BattleshipsMsg -> Bool
-checkMyWin msg
-    | isNothing (bsMprev msg) = isNothing $ bsMcoord msg
-    | True = checkMyWin (fromJust $ bsMprev msg)
+checkMyWin msg = isNothing $ bsMcoord msg
 
 getEnemyPlayerId :: String -> String
 getEnemyPlayerId plId
     | plId == "A" = "B"
     | True = "A"
-
-fillIfLast :: BattleshipsTable -> BattleshipsMsg -> BattleshipsMsg
-fillIfLast table msg
-    | isNothing (bsMprev msg) = fillOponentsResult table msg
-    | True = BattleshipsMsg {bsMcoord = bsMcoord msg, bsMresult = bsMresult msg, bsMprev = Just (fillIfLast table (fromJust (bsMprev msg)))}
 
 
 fillOponentsResult :: BattleshipsTable -> BattleshipsMsg -> BattleshipsMsg
@@ -88,7 +90,7 @@ fillOponentsResult table msg = do
         -- Seems like we have won.
         msg
     else do
-        BattleshipsMsg {bsMcoord = shotCoords, bsMresult = Just (didShotHit table (fromJust shotCoords)), bsMprev = bsMprev msg}
+        BattleshipsMsg {bsMcoord = Nothing, bsMresult = Just (didShotHit table (fromJust shotCoords)), bsMprev = Just msg}
 
 -- region FROM FIRST PROGRAM
 {-
@@ -224,8 +226,9 @@ selectOnlyPlayerMoves "B" msg = do
             selectOnlyPlayerMoves "B" (fromJust prevMove)
 
 -- region Convert To BEncode
-coordToBEncode :: (Char, Int) -> (String, BEncode)
-coordToBEncode (ch, i) = ("coord", BDict (Map.fromList [("1", BString (Bsl.fromStrict (Bs.pack [ch]))), ("2", BString (Bsl.fromStrict (Bs.pack (show i))))]))
+coordToBEncode :: Maybe (Char, Int) -> (String, BEncode)
+coordToBEncode (Just (ch, i)) = ("coord", BDict (Map.fromList [("1", BString (Bsl.fromStrict (Bs.pack [ch]))), ("2", BString (Bsl.fromStrict (Bs.pack (show i))))]))
+coordToBEncode Nothing = ("coord", BDict (Map.fromList []))
 
 resultToBEncode :: Bool -> (String, BEncode)
 resultToBEncode b
@@ -238,38 +241,23 @@ moveToBEncode msg = do
     if (isJust resultVal) then do
         let resultBe = resultToBEncode (fromJust resultVal)
         let coordVal = bsMcoord msg
-        if (isJust coordVal) then do
-            let coordBe = coordToBEncode (fromJust coordVal)
-            let prevVal = bsMprev msg
-            if(isJust prevVal) then do
-                let prevBe = moveToBEncode (fromJust prevVal)
-                BDict (Map.fromList [coordBe, ("prev", prevBe), resultBe])
-            else do
-                BDict (Map.fromList [coordBe, resultBe])
+        let coordBe = coordToBEncode coordVal
+        let prevVal = bsMprev msg
+        if(isJust prevVal) then do
+            let prevBe = moveToBEncode (fromJust prevVal)
+            BDict (Map.fromList [coordBe, ("prev", prevBe), resultBe])
         else do
-            let prevVal = bsMprev msg
-            if(isJust prevVal) then do
-                let prevBe = moveToBEncode (fromJust prevVal)
-                BDict (Map.fromList [("prev", prevBe), resultBe])
-            else do
-                BDict (Map.fromList [resultBe])
+            BDict (Map.fromList [coordBe, resultBe])
     else do
         let coordVal = bsMcoord msg
-        if (isJust coordVal) then do
-            let coordBe = coordToBEncode (fromJust coordVal)
-            let prevVal = bsMprev msg
-            if(isJust prevVal) then do
-                let prevBe = moveToBEncode (fromJust prevVal)
-                BDict (Map.fromList [coordBe, ("prev", prevBe)])
-            else do
-                BDict (Map.fromList [coordBe])
+        let coordBe = coordToBEncode coordVal
+        let prevVal = bsMprev msg
+        if(isJust prevVal) then do
+            let prevBe = moveToBEncode (fromJust prevVal)
+            BDict (Map.fromList [coordBe, ("prev", prevBe)])
         else do
-            let prevVal = bsMprev msg
-            if(isJust prevVal) then do
-                let prevBe = moveToBEncode (fromJust prevVal)
-                BDict (Map.fromList [("prev", prevBe)])
-            else do
-                BDict (Map.fromList [])
+            BDict (Map.fromList [coordBe])
+
 -- end region Convert To BEncode
 
 -- region Parse From BEncode

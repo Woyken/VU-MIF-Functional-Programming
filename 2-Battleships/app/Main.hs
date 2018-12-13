@@ -20,6 +20,51 @@ import Data.BEncode.Lexer
 BattleshipsMsg {bsMcoord = Just ('A', 3), bsMresult = Just False, bsMprev = Just BattleshipsMsg {bsMcoord = Just ('B', 4), bsMresult  = Nothing, bsMprev = Nothing}}
 
 
+d
+ 5:coord
+ d
+  1:1 1:F
+  1:2 1:1
+ e
+
+ 4:prev
+ d
+  5:coord
+  d
+   1:1 1:F
+   1:2 1:1
+  e
+ e
+
+ 6:result
+ 4:MISS
+e
+d5:coordde4:prevd5:coordd1:11:F1:21:1ee6:result4:MISSe
+
+*****************************************************************************************************************************************************
+
+d
+ 5:coord
+ d
+  1:1 1:F
+  1:2 1:1
+ e
+
+ 4:prev
+ d
+  5:coord
+  d
+   1:1 1:F
+   1:2 1:1
+  e
+ e
+
+ 6:result
+ 4:MISS
+e
+
+d5:coordd1:11:F1:21:1e4:prevd5:coordd1:11:F1:21:1e6:result4:MISSee
+
 Idea:
 Player A posts first move;
 Player B gets the move, makes it's own, sends back
@@ -120,35 +165,38 @@ parserExceptionHandler _ = return (Left ("BEncode library Has thrown an exceptio
 mainMoves :: String -> String -> IO ()
 mainMoves gameServerName playerId = do
     gotBencode <- getTheMovesRequest (getRequestUrl gameServerName playerId) _DEFINED_CONTENT_TYPE
+    -- parsedBsMoves <- (return (parseAllMoves gotBencode)) `catch` \e -> return (Left ("Caught " ++ show (e :: SomeException)))
     parsedBsMoves <- catch (return (parseAllMoves gotBencode)) parserExceptionHandler
-    if (isLeft parsedBsMoves) then
+    if (isLeft parsedBsMoves) then do
         -- Can't parse Bencode, can't continue!.
-        putStrLn "BEncode parsing has failed, can't continue."
+        putStrLn (fromLeft "" parsedBsMoves)
+        -- For now treat this as a win, parser library fails when there's an empty list...
+        putStrLn "I won, I guess... Okay, this has to be a bug in parser library."
     else do
         let parsedBsMovesR = fromRight (BattleshipsMsg {bsMcoord = Nothing, bsMresult = Nothing, bsMprev = Nothing}) parsedBsMoves
         if (checkMyWin parsedBsMovesR) then
             putStrLn "I won!"
         else do
-            let parsedBsMovesFilled = fillIfLast _MY_SHIPS_ON_TABLE parsedBsMovesR
+            let parsedBsMovesFilled = fillOponentsResult _MY_SHIPS_ON_TABLE parsedBsMovesR
             let enemyPlayerMoves = selectOnlyPlayerMoves (getEnemyPlayerId playerId) parsedBsMovesFilled
             let meAlive = isNothing enemyPlayerMoves || checkMeAlive _MY_SHIPS_ON_TABLE (fromJust enemyPlayerMoves)
             if (meAlive == False) then do
                 -- add empty dict and send... I lost...
-                let toSend = bShow (moveToBEncode $ addMyMove parsedBsMovesFilled BattleshipsMsg {bsMcoord = Nothing, bsMresult = Nothing, bsMprev = Nothing}) ""
+                let toSend = bShow (moveToBEncode $ parsedBsMovesFilled) ""
                 postResponseStr <- sendPostRequest toSend (getRequestUrl gameServerName playerId) _DEFINED_CONTENT_TYPE
                 putStrLn $ "I lost... Sending loosing message... response: " ++ postResponseStr
             else do
                 -- add my own move.
-                let nextMove = checkAllBsMMoves (fromJust (selectOnlyPlayerMoves (getEnemyPlayerId playerId) (parsedBsMovesFilled))) ('A', 1)
+                let nextMove = checkAllBsMMoves (fromJust (selectOnlyPlayerMoves (playerId) (parsedBsMovesFilled))) ('A', 1)
                 if (isLeft nextMove) then do
                     -- nowhere to move anymore...
                     -- Send surrender message?
-                    let toSend = bShow (moveToBEncode $ addMyMove parsedBsMovesFilled BattleshipsMsg {bsMcoord = Nothing, bsMresult = Nothing, bsMprev = Nothing}) ""
+                    let toSend = bShow (moveToBEncode $ parsedBsMovesFilled) ""
                     postResponseStr <- sendPostRequest toSend (getRequestUrl gameServerName playerId) _DEFINED_CONTENT_TYPE
                     putStrLn $ "Next move position was not found. Can't continue, sending loss message. response: " ++ postResponseStr
                 else do
                     let nextMoveR = fromRight ('A', 1) nextMove
-                    let toSend = bShow (moveToBEncode $ addMyMove parsedBsMovesFilled BattleshipsMsg {bsMcoord = Just nextMoveR, bsMresult = Nothing, bsMprev = Nothing}) ""
+                    let toSend = bShow (moveToBEncode $ addMyMove parsedBsMovesFilled nextMoveR) ""
                     postResponseStr <- sendPostRequest toSend (getRequestUrl gameServerName playerId) _DEFINED_CONTENT_TYPE
                     putStrLn toSend
                     putStrLn $ "Made a move, sending... response: " ++ postResponseStr
