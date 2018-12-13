@@ -139,7 +139,7 @@ mainMoves gameServerName playerId = do
                 putStrLn $ "I lost... Sending loosing message... response: " ++ postResponseStr
             else do
                 -- add my own move.
-                let nextMove = checkAllBsMMoves (fromJust (selectOnlyPlayerMoves (getEnemyPlayerId playerId) (parsedBsMovesFilled))) ('A', 1)
+                let nextMove = checkAllBsMMoves (fromJust (selectOnlyPlayerMoves (playerId) (parsedBsMovesFilled))) ('A', 1)
                 if (isLeft nextMove) then do
                     -- nowhere to move anymore...
                     -- Send surrender message?
