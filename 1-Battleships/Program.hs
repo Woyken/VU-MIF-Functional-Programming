@@ -14,7 +14,7 @@ data BattleshipsMsg = BattleshipsMsg {
 } deriving Show
 
 {-
-1 move left: 
+1 move left:
 d5:coordde4:prevd5:coordd1:11:D1:21:1e4:prevd5:coordd1:11:H1:21:3e4:prevd5:coordd1:11:J1:21:3e4:prevd5:coordd1:11:I1:21:9e4:prevd5:coordd1:11:C1:21:4e4:prevd5:coordd1:11:H1:21:6e4:prevd5:coordd1:11:E1:21:5e4:prevd5:coordd1:11:D1:21:5e4:prevd5:coordd1:11:C1:21:7e4:prevd5:coordd1:11:G1:21:7e4:prevd5:coordd1:11:A1:21:2e4:prevd5:coordd1:11:G1:21:9e4:prevd5:coordd1:11:F1:21:5e4:prevd5:coordd1:11:A1:21:9e4:prevd5:coordd1:11:A1:21:4e4:prevd5:coordd1:11:E1:21:5e4:prevd5:coordd1:11:D1:21:5e4:prevd5:coordd1:11:B1:21:6e4:prevd5:coordd1:11:B1:21:3e4:prevd5:coordd1:11:I1:21:5e4:prevd5:coordd1:11:G1:21:9e4:prevd5:coordd1:11:D1:21:3e4:prevd5:coordd1:11:A1:22:10e4:prevd5:coordd1:11:A1:22:10e4:prevd5:coordd1:11:B1:21:6e4:prevd5:coordd1:11:E1:21:9e4:prevd5:coordd1:11:B1:21:9e4:prevd5:coordd1:11:G1:21:6e4:prevd5:coordd1:11:C1:21:8e4:prevd5:coordd1:11:J1:21:1e4:prevd5:coordd1:11:D1:21:2e4:prevd5:coordd1:11:A1:21:4e4:prevd5:coordd1:11:J1:21:9e4:prevd5:coordd1:11:A1:21:3e4:prevd5:coordd1:11:D1:21:8e4:prevd5:coordd1:11:F1:21:5e4:prevd5:coordd1:11:J1:21:1e4:prevd5:coordd1:11:G1:21:1e4:prevd5:coordd1:11:C1:22:10e4:prevd5:coordd1:11:H1:21:5e4:prevd5:coordd1:11:I1:21:2e4:prevd5:coordd1:11:H1:21:9e4:prevd5:coordd1:11:A1:21:6e4:prevd5:coordd1:11:E1:22:10e4:prevd5:coordd1:11:F1:21:6e4:prevd5:coordd1:11:F1:21:6e4:prevd5:coordd1:11:F1:21:4e4:prevd5:coordd1:11:I1:21:1e4:prevd5:coordd1:11:F1:21:2e4:prevd5:coordd1:11:C1:21:4e4:prevd5:coordd1:11:E1:21:6e4:prevd5:coordd1:11:A1:21:8e4:prevd5:coordd1:11:G1:21:5e4:prevd5:coordd1:11:F1:21:9e4:prevd5:coordd1:11:I1:21:3e4:prevd5:coordd1:11:G1:22:10e4:prevd5:coordd1:11:G1:21:4e4:prevd5:coordd1:11:A1:21:5e4:prevd5:coordd1:11:I1:21:5e4:prevd5:coordd1:11:D1:22:10e4:prevd5:coordd1:11:H1:21:2e4:prevd5:coordd1:11:A1:21:6e4:prevd5:coordd1:11:D1:21:7e4:prevd5:coordd1:11:F1:21:3e4:prevd5:coordd1:11:D1:21:3e4:prevd5:coordd1:11:B1:21:5e4:prevd5:coordd1:11:E1:21:3e4:prevd5:coordd1:11:A1:21:7e4:prevd5:coordd1:11:I1:21:8e4:prevd5:coordd1:11:H1:22:10e4:prevd5:coordd1:11:H1:21:5e4:prevd5:coordd1:11:E1:21:6e4:prevd5:coordd1:11:I1:21:4e4:prevd5:coordd1:11:E1:21:2e4:prevd5:coordd1:11:A1:21:9e4:prevd5:coordd1:11:C1:21:6e4:prevd5:coordd1:11:E1:21:9e4:prevd5:coordd1:11:J1:21:7e4:prevd5:coordd1:11:J1:21:4e4:prevd5:coordd1:11:J1:22:10e4:prevd5:coordd1:11:I1:22:10e4:prevd5:coordd1:11:I1:21:3e4:prevd5:coordd1:11:E1:21:7e4:prevd5:coordd1:11:C1:21:8e4:prevd5:coordd1:11:I1:21:1e4:prevd5:coordd1:11:H1:21:7e4:prevd5:coordd1:11:J1:22:10e4:prevd5:coordd1:11:G1:21:4e4:prevd5:coordd1:11:H1:21:9e4:prevd5:coordd1:11:G1:21:8e4:prevd5:coordd1:11:B1:21:8e4:prevd5:coordd1:11:E1:21:7e4:prevd5:coordd1:11:D1:21:9e4:prevd5:coordd1:11:G1:21:5e4:prevd5:coordd1:11:H1:21:3e4:prevd5:coordd1:11:A1:21:2e4:prevd5:coordd1:11:B1:21:1e4:prevd5:coordd1:11:C1:21:3e4:prevd5:coordd1:11:B1:21:4e4:prevd5:coordd1:11:F1:21:7e4:prevd5:coordd1:11:J1:21:5e4:prevd5:coordd1:11:I1:21:4e4:prevd5:coordd1:11:D1:21:6e4:prevd5:coordd1:11:I1:21:8e4:prevd5:coordd1:11:F1:21:7e4:prevd5:coordd1:11:G1:21:2e4:prevd5:coordd1:11:G1:21:7e4:prevd5:coordd1:11:D1:21:2e4:prevd5:coordd1:11:C1:21:2e4:prevd5:coordd1:11:A1:21:1e4:prevd5:coordd1:11:G1:21:2e4:prevd5:coordd1:11:B1:21:8e4:prevd5:coordd1:11:G1:21:6e4:prevd5:coordd1:11:C1:21:9e4:prevd5:coordd1:11:C1:21:5e4:prevd5:coordd1:11:C1:21:7e4:prevd5:coordd1:11:E1:21:8e4:prevd5:coordd1:11:E1:21:1e4:prevd5:coordd1:11:G1:22:10e4:prevd5:coordd1:11:J1:21:8e4:prevd5:coordd1:11:C1:21:1e4:prevd5:coordd1:11:B1:21:7e4:prevd5:coordd1:11:F1:21:1e4:prevd5:coordd1:11:B1:21:3e4:prevd5:coordd1:11:J1:21:6e4:prevd5:coordd1:11:F1:21:4e4:prevd5:coordd1:11:C1:21:9e4:prevd5:coordd1:11:J1:21:3e4:prevd5:coordd1:11:D1:21:4e4:prevd5:coordd1:11:D1:21:4e4:prevd5:coordd1:11:J1:21:8e4:prevd5:coordd1:11:B1:21:4e4:prevd5:coordd1:11:E1:22:10e4:prevd5:coordd1:11:I1:21:6e4:prevd5:coordd1:11:H1:22:10e4:prevd5:coordd1:11:F1:22:10e4:prevd5:coordd1:11:A1:21:1e4:prevd5:coordd1:11:C1:21:5e4:prevd5:coordd1:11:E1:21:2e4:prevd5:coordd1:11:C1:21:2e4:prevd5:coordd1:11:C1:21:6e4:prevd5:coordd1:11:C1:21:1e4:prevd5:coordd1:11:H1:21:8e4:prevd5:coordd1:11:I1:21:7e4:prevd5:coordd1:11:I1:21:7e4:prevd5:coordd1:11:H1:21:2e4:prevd5:coordd1:11:D1:22:10e4:prevd5:coordd1:11:J1:21:5e4:prevd5:coordd1:11:A1:21:5e4:prevd5:coordd1:11:F1:21:2e4:prevd5:coordd1:11:G1:21:1e4:prevd5:coordd1:11:D1:21:8e4:prevd5:coordd1:11:A1:21:8e4:prevd5:coordd1:11:B1:21:2e4:prevd5:coordd1:11:A1:21:3e4:prevd5:coordd1:11:J1:21:4e4:prevd5:coordd1:11:B1:21:2e4:prevd5:coordd1:11:J1:21:6e4:prevd5:coordd1:11:G1:21:8e4:prevd5:coordd1:11:I1:22:10e4:prevd5:coordd1:11:A1:21:7e4:prevd5:coordd1:11:I1:21:2e4:prevd5:coordd1:11:B1:21:5e4:prevd5:coordd1:11:H1:21:1e4:prevd5:coordd1:11:E1:21:4e4:prevd5:coordd1:11:B1:21:1e4:prevd5:coordd1:11:F1:21:9e4:prevd5:coordd1:11:E1:21:3e4:prevd5:coordd1:11:B1:22:10e4:prevd5:coordd1:11:D1:21:7e4:prevd5:coordd1:11:H1:21:1e4:prevd5:coordd1:11:H1:21:4e4:prevd5:coordd1:11:F1:22:10e4:prevd5:coordd1:11:D1:21:6e4:prevd5:coordd1:11:H1:21:4e4:prevd5:coordd1:11:F1:21:8e4:prevd5:coordd1:11:F1:21:8e4:prevd5:coordd1:11:D1:21:1e4:prevd5:coordd1:11:G1:21:3e4:prevd5:coordd1:11:E1:21:4e4:prevd5:coordd1:11:C1:21:3e4:prevd5:coordd1:11:B1:22:10e4:prevd5:coordd1:11:J1:21:7e4:prevd5:coordd1:11:D1:21:9e4:prevd5:coordd1:11:E1:21:1e4:prevd5:coordd1:11:J1:21:9e4:prevd5:coordd1:11:B1:21:7e4:prevd5:coordd1:11:E1:21:8e4:prevd5:coordd1:11:F1:21:3e4:prevd5:coordd1:11:F1:21:1e4:prevd5:coordd1:11:I1:21:9e4:prevd5:coordd1:11:C1:22:10e4:prevd5:coordd1:11:H1:21:6e4:prevd5:coordd1:11:B1:21:9e4:prevd5:coordd1:11:H1:21:7e4:prevd5:coordd1:11:G1:21:3e4:prevd5:coordd1:11:I1:21:6e4:prevd5:coordd1:11:H1:21:8e4:prevd5:coordd1:11:J1:21:2ee6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result3:HITe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result3:HITe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result3:HITe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result3:HITe6:result3:HITe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result4:MISSe6:result3:HITe6:result3:HITe6:result3:HITe
 
 Full board:
@@ -39,10 +39,10 @@ move1 board =
   case parseSingleMove board of
     Left e1 -> Left e1
     Right (Nothing, _) -> Right (Just ["A", "1"])
-    Right (Just bsM, _) -> 
+    Right (Just bsM, _) ->
       case checkAllBsMMoves bsM ('A', 1) of
         Right (c, i) -> Right (Just [[c], show i])
-        Left err1 -> 
+        Left err1 ->
           case checkAllBsMMoves (fromJust (bsMprev bsM)) ('A', 1) of
             Right (c, i) -> Right (Just [[c], show i])
             Left err2 -> Left err1
@@ -51,7 +51,7 @@ move1 board =
 Gets next available coordinate
 -}
 getNextCoord :: (Char, Int) -> Either String (Char, Int)
-getNextCoord (letter, number) 
+getNextCoord (letter, number)
   | ord letter >= ord 'J' && number >= 10 = Left "Board is full"
   | ord letter >= ord 'J' = Right ('A', number + 1)
   | ord letter < ord 'J' = Right (chr (ord letter + 1), number)
@@ -84,18 +84,18 @@ checkAllBsMMoves bsM (letter, number)
       nextCoord = getNextCoord (letter, number)
       result =
         if isLeft nextCoord then
-          Left (fromLeft "Something went horribly wrong, isLeft && fromLeft failed!" nextCoord) 
+          Left (fromLeft "Something went horribly wrong, isLeft && fromLeft failed!" nextCoord)
         else
           checkAllBsMMoves bsM (fromRight ('A', 1) nextCoord)
     in
       result
   | True = Right (letter, number)
-      
+
 {-
 Start parsing here. Does all the job.
 -}
 parseSingleMove :: String -> Either String (Maybe BattleshipsMsg, String)
-parseSingleMove (msg) = 
+parseSingleMove (msg) =
   case getCoordinates msg of
     Left e1 -> Left e1
     Right (Just (letter, number), restAfterCoords) ->
@@ -133,11 +133,11 @@ getCoordinates errorRemainder = Left $ "Coordinate invalid, unexpected symbols, 
 Parses shot results
 -}
 getShotResult :: String -> Either String (Maybe Bool, String)
-getShotResult ('6':':':'r':'e':'s':'u':'l':'t':'4':':':'M':'I':'S':'S':'e':rest) = 
+getShotResult ('6':':':'r':'e':'s':'u':'l':'t':'4':':':'M':'I':'S':'S':'e':rest) =
   Right (Just False, rest)
-getShotResult ('6':':':'r':'e':'s':'u':'l':'t':'3':':':'H':'I':'T':'e':rest) = 
+getShotResult ('6':':':'r':'e':'s':'u':'l':'t':'3':':':'H':'I':'T':'e':rest) =
   Right (Just True, rest)
-getShotResult "" = 
+getShotResult "" =
   Right (Nothing, "")
 getShotResult errorRemainder = Left $ "Result invalid, while parsing: " ++ errorRemainder
 
