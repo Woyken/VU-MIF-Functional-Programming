@@ -16,4 +16,7 @@ tests = testGroup "Tests" [unitTests]
 unitTests = testGroup "Unit tests"
   [ testCase "Parsing from and back to BEncode" $
   bShow (moveToBEncode (fromRight (BattleshipsMsg {bsMcoord = Nothing, bsMresult = Nothing, bsMprev = Nothing}) (parseAllMoves "d5:coordd1:11:F1:21:1e4:prevd5:coordd1:11:F1:21:1ee6:result4:MISSe"))) "" `compare` "d5:coordd1:11:F1:21:1e4:prevd5:coordd1:11:F1:21:1ee6:result4:MISSe" @?= EQ
+  ,
+  testCase "Get enemy id succeeds" $
+  getEnemyPlayerId "A" `compare` "B" @?= EQ
   ]
