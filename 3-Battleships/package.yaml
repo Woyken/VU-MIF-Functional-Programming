@@ -28,6 +28,8 @@ dependencies:
 - tasty-hunit
 - tasty-quickcheck
 - tasty-smallcheck
+- Spock
+- text
 
 library:
   source-dirs: src

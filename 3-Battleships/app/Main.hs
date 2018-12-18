@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Main where
 
 import Lib
@@ -14,6 +15,12 @@ import Data.BEncode
 import Data.BEncode.Parser
 import Data.BEncode.Lexer
 
+import Data.Text (Text, pack)
+import qualified Data.ByteString.Char8 as Bs
+import Data.Text.Encoding (decodeUtf8)
+
+import Web.Spock
+import Web.Spock.Config
 
 
 {-
@@ -101,6 +108,26 @@ Move command.
 Get/Post
 -}
 
+type Api = SpockM () () () ()
+
+main :: IO ()
+main = do
+    spockCfg <- defaultSpockCfg () PCNoDatabase ()
+    runSpock 8080 (spock spockCfg app)
+
+app :: Api
+app = do
+    get ("game" <//> var <//> "player" <//> "A") $ \gameId ->
+        text $ "Hello " <> gameId <> "!"
+    post ("game" <//> var <//> "player" <//> "A") $ \gameId -> do -- gameId will hold in request path the id
+        b <- body -- From body get the bencode
+        -- Here all the parsing and error detection logic be performed.
+        -- if error, return "error message"
+        -- else return "", and save the bencode to map with gameId as key.
+        text ("placeholder text..." <> gameId <> " " <> (decodeUtf8 b)) -- respond to user, usually "", in case of error "Coordinates are missing" or sth like that
+
+
+
 
 
 -- 5 ships T formation.
@@ -138,8 +165,8 @@ _DEFINED_CONTENT_TYPE = "application/bencoding+nolists"
 getRequestUrl :: String -> String -> String
 getRequestUrl gameServerName playerId = "http://battleship.haskell.lt/game/" ++ gameServerName ++ "/player/" ++ playerId
 
-main :: IO ()
-main = do
+main2 :: IO ()
+main2 = do
     putStrLn "PlayerID (A/B):"
     playerId <- getLine
     if (playerId /= "A" && playerId /= "B") then
